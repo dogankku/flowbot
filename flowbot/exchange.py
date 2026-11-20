@@ -8,7 +8,16 @@ import pandas as pd
 
 log = logging.getLogger("flowbot.exchange")
 
-LEVERAGED_SUFFIXES = ("UP", "DOWN", "BULL", "BEAR", "3L", "3S", "5L", "5S")
+LEVERAGED_SUFFIXES = ("DOWN", "BULL", "BEAR", "3L", "3S", "5L", "5S")
+# "UP" eki sadece bilinen kaldıraçlı tokenlerde (BTCUP...) — JUP, SYRUP gibi normal coinler elenmesin
+UP_PREFIXES = {"BTC", "ETH", "BNB", "XRP", "ADA", "DOT", "LINK", "LTC", "TRX", "XLM", "EOS", "FIL",
+               "SXP", "YFI", "UNI", "AAVE", "SUSHI", "1INCH", "XTZ", "BCH"}
+
+
+def is_leveraged(base: str) -> bool:
+    if any(base.endswith(s) and len(base) > len(s) + 1 for s in LEVERAGED_SUFFIXES):
+        return True
+    return base.endswith("UP") and base[:-2] in UP_PREFIXES
 
 
 class Exchange:
@@ -55,7 +64,7 @@ class Exchange:
             if m.get("quote") != u["quote"]:
                 continue
             base = m.get("base", "")
-            if base in u.get("exclude_bases", []) or base.endswith(LEVERAGED_SUFFIXES):
+            if base in u.get("exclude_bases", []) or is_leveraged(base):
                 continue
             qv = t.get("quoteVolume") or 0
             if qv < u["min_quote_volume_24h"]:

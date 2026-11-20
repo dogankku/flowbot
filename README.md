@@ -10,6 +10,18 @@ alımları, agresif alıcı baskısı, emir defteri dengesizliği, gizli birikim
 
 Hepsi aynı kodu kullanır: paper'da test ettiğin strateji canlıda birebir aynı çalışır.
 
+## 🌐 Canlı web paneli: https://dogankku.github.io/flowbot/
+
+Kurulum gerektirmez, tarayıcıda açılır:
+- Binance'ten **anlık fiyatlar** (WebSocket), en likit 60 USDT paritesi
+- Her dakika **para akışı taraması** (Python botuyla aynı 6 dedektör ve skor; `assets/flow.js`)
+- **Canlı balina akışı**: büyük tekil piyasa emirleri ve son 15 dakikanın net balina akışı
+- Canlı mum grafiği, 5 dakikalık agresif alıcı oranı
+- **Paper bot**: "Botu Başlat" ile sanal parayla otomatik al-sat. Durum tarayıcında saklanır, sayfa açıkken çalışır.
+
+GitHub Pages sadece statik dosya sunduğu için web paneli **gerçek parayla işlem yapmaz** (API anahtarını
+herkese açık bir sayfaya koymak güvenli değil). 7/24 gerçek işlem için aşağıdaki Python botunu bir sunucuda çalıştır.
+
 ---
 
 ## 1. Kurulum
