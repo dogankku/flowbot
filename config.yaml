@@ -1,0 +1,78 @@
+# ============================================================
+#  FlowBot ayarları
+#  API anahtarları ve Telegram token'ı .env dosyasında durur (bkz. .env.example)
+# ============================================================
+
+exchange:
+  name: binance          # ccxt destekli herhangi bir borsa: binance, bybit, okx, kucoin, gate...
+  market_type: spot      # şimdilik spot (kaldıraçsız). Short açılmaz.
+  sandbox: false         # true -> borsanın test ağı (Binance testnet anahtarı gerekir)
+
+universe:
+  quote: USDT
+  top_n: 60                        # 24s hacmine göre en likit ilk N parite taranır
+  min_quote_volume_24h: 5000000    # 5M USDT altı coinler elenir (manipülasyon/slipaj riski)
+  exclude_bases: [USDC, FDUSD, TUSD, DAI, BUSD, USDP, EUR, TRY, PAXG, WBTC]
+  refresh_minutes: 60
+
+timeframe: 15m
+history_bars: 300
+loop_seconds: 60
+
+# --- Sinyal dedektörleri (ağırlıklar toplam skoru belirler) ---
+detectors:
+  volume_spike:            # Hacim patlaması: log-hacmin robust z-skoru
+    lookback: 96           # 96 x 15dk = son 24 saat
+    z_threshold: 3.0
+    weight: 25
+  money_flow:              # Birikim: CLV ağırlıklı hacim, MFI, OBV eğimi
+    lookback: 20
+    weight: 15
+  breakout:                # Hacim onaylı direnç kırılımı
+    lookback: 48
+    weight: 15
+  whale_trades:            # Balina işlemleri (son işlemler içinden büyük tekil emirler)
+    trades_limit: 1000
+    percentile: 99
+    min_usd: 20000         # balina eşiği en az bu kadar USD
+    weight: 20
+  taker_flow:              # Agresif alıcı / satıcı oranı (CVD)
+    weight: 10
+  orderbook:               # Emir defteri dengesizliği (fiyatın +/- %1'i içinde)
+    depth_pct: 1.0
+    limit: 100
+    weight: 15
+  deep_check_top_k: 8      # sadece en iyi K aday için işlem + emir defteri çekilir (rate limit dostu)
+
+filters:
+  max_spread_pct: 0.15
+  max_rsi: 82                    # aşırı alınmışa girme
+  max_vwap_extension_atr: 5.0    # 24s VWAP'tan 5 ATR'den fazla uzaklaşmışsa kovalamaz
+  min_score: 60                  # 0-100 arası; bu skorun üstü "AL" sinyali
+
+# --- Risk yönetimi ---
+risk:
+  starting_equity: 1000          # paper modda başlangıç bakiyesi (USDT)
+  risk_per_trade_pct: 1.0        # stop olursa kaybedilecek max sermaye %
+  max_position_pct: 20           # tek pozisyon sermayenin en fazla %20'si
+  max_open_positions: 4
+  atr_period: 14
+  stop_atr_mult: 2.0             # stop = giriş - 2*ATR
+  take_profit_r: 2.0             # 2R'de pozisyonun yarısı satılır
+  partial_tp_fraction: 0.5
+  breakeven_at_r: 1.0            # 1R kârda stop girişe çekilir
+  trailing_atr_mult: 2.5         # kalan kısım için iz süren stop
+  max_daily_loss_pct: 4.0        # gün içinde %4 kayıpta yeni pozisyon açılmaz
+  symbol_cooldown_minutes: 120
+  max_hold_hours: 24
+
+fees:
+  taker_pct: 0.10
+  slippage_pct: 0.05
+
+storage:
+  db_path: data/flowbot.db
+  state_path: data/state.json
+
+telegram:
+  enabled: false
