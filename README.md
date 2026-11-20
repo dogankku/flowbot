@@ -19,6 +19,14 @@ Kurulum gerektirmez, tarayıcıda açılır:
 - Canlı mum grafiği, 5 dakikalık agresif alıcı oranı
 - **Paper bot**: "Botu Başlat" ile sanal parayla otomatik al-sat. Durum tarayıcında saklanır, sayfa açıkken çalışır.
 
+### 🟢 Pump.fun sayfası: https://dogankku.github.io/flowbot/pump.html
+- pump.fun'da oluşan **her yeni token** canlı (PumpPortal WebSocket)
+- **Sıcak tokenler**: son 2 dakikanın net alım akışı, tekil alıcı, alış oranı, bonding curve hızı ve balina alımlarından 0-100 momentum skoru
+- **Risk uyarıları**: geliştirici sattı, tek cüzdan yoğunlaşması, zirveden sert düşüş
+- **Mezuniyete yakın** tokenler, **DEX'e geçenler** (canlı), **≥2 SOL büyük alımlar**
+- **DexScreener**: DEX'teki trend pump.fun tokenleri (fiyat, hacim, likidite, al/sat)
+- Token detayı: piyasa değeri grafiği, son işlemler, kontrat adresi, pump.fun / DexScreener / Solscan linkleri
+
 GitHub Pages sadece statik dosya sunduğu için web paneli **gerçek parayla işlem yapmaz** (API anahtarını
 herkese açık bir sayfaya koymak güvenli değil). 7/24 gerçek işlem için aşağıdaki Python botunu bir sunucuda çalıştır.
 

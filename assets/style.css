@@ -208,3 +208,73 @@ footer { padding: 4px 20px 28px; color: var(--muted); font-size: 12px; max-width
   .comp { grid-template-columns: 14px 86px 1fr; }
   .form { grid-template-columns: 1fr; }
 }
+
+/* ================= gezinme menüsü ================= */
+.tabs { display: flex; gap: 4px; margin-left: 18px; background: var(--panel); border: 1px solid var(--line); border-radius: 9px; padding: 3px; }
+.tabs a { color: var(--muted); text-decoration: none; padding: 5px 12px; border-radius: 6px; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.tabs a:hover { color: var(--text); }
+.tabs a.active { background: var(--panel-2); color: var(--text); box-shadow: inset 0 0 0 1px var(--line); }
+
+/* ================= pump.fun sayfası ================= */
+.pump-grid {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.85fr);
+  grid-template-areas:
+    "hot hot newfeed"
+    "detail grad newfeed"
+    "detail migfeed bigbuys"
+    "dex dex dex";
+}
+.hot { grid-area: hot; } .detail { grid-area: detail; } .newfeed { grid-area: newfeed; }
+.grad { grid-area: grad; } .migfeed { grid-area: migfeed; } .bigbuys { grid-area: bigbuys; } .dex { grid-area: dex; }
+.hot .table-wrap { max-height: 520px; }
+.dex .table-wrap { max-height: 640px; }
+.feed { overflow-y: auto; max-height: 520px; }
+.newfeed .feed { max-height: 980px; }
+.feed.mono, .mono { font-family: var(--mono); font-size: 12px; }
+.feed.small { max-height: 260px; }
+.fi { display: grid; grid-template-columns: 32px 1fr auto; gap: 10px; align-items: center; padding: 7px 6px; border-bottom: 1px solid var(--line); cursor: pointer; animation: flashIn 1.2s; }
+.fi:hover { background: var(--panel-2); }
+.fi-main { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fi-r { text-align: right; font-variant-numeric: tabular-nums; font-size: 13px; }
+.av { width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: #fff; flex: 0 0 auto; object-fit: cover; vertical-align: middle; }
+td.tok { display: flex; align-items: center; gap: 8px; max-width: 230px; }
+td.tok div { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+td.flags { white-space: normal; min-width: 120px; }
+td.flags .tag { display: inline-block; margin: 1px 0; }
+.prog { position: relative; height: 16px; min-width: 90px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+.prog i { position: absolute; inset: 0 auto 0 0; background: linear-gradient(90deg, rgba(79,156,255,.35), rgba(34,211,166,.55)); }
+.prog span { position: relative; display: block; text-align: center; font-size: 11px; line-height: 16px; font-weight: 700; }
+.grad-list { display: flex; flex-direction: column; gap: 6px; overflow-y: auto; max-height: 420px; }
+.gl { display: grid; grid-template-columns: 32px 1fr auto; gap: 10px; align-items: center; padding: 6px; border-radius: 8px; background: var(--panel-2); cursor: pointer; }
+.gl-main .prog { margin-top: 4px; }
+.d-top { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+.d-top > div { background: var(--panel-2); border-radius: 8px; padding: 8px 10px; }
+.d-top label, .d-prog label { display: block; color: var(--muted); font-size: 11px; }
+.d-top b { font-size: 16px; }
+.d-top small { display: block; font-size: 11px; color: var(--muted); }
+.d-prog { margin-bottom: 10px; }
+.d-prog .prog { height: 20px; margin-top: 4px; }
+.d-prog .prog span { line-height: 20px; font-size: 12px; }
+.spark { width: 100%; height: 110px; display: block; margin-bottom: 10px; background: var(--bg); border-radius: 8px; }
+.spark.empty { display: flex; align-items: center; justify-content: center; padding: 0; }
+.d-parts { margin-bottom: 10px; }
+.d-flags { margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 4px; }
+.d-meta { font-size: 12px; line-height: 1.9; word-break: break-all; }
+.d-meta code { font-family: var(--mono); background: var(--bg); padding: 1px 5px; border-radius: 4px; }
+#dTitle .av { width: 24px; height: 24px; font-size: 10px; }
+.risk-box { margin: 0 20px 14px; padding: 14px 18px; border: 1px solid rgba(240,185,11,.35); background: rgba(240,185,11,.06); border-radius: var(--radius); font-size: 13px; }
+.risk-box h3 { margin: 0 0 6px; font-size: 14px; color: var(--amber); }
+.risk-box ul { margin: 0; padding-left: 18px; color: #c9d3dd; }
+.risk-box li { margin: 3px 0; }
+
+@media (max-width: 1280px) {
+  .pump-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "hot hot" "detail newfeed" "grad migfeed" "bigbuys bigbuys" "dex dex"; }
+}
+@media (max-width: 860px) {
+  .tabs { margin-left: 0; order: 3; width: 100%; }
+  .brand { flex-wrap: wrap; }
+  .pump-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "hot" "detail" "newfeed" "grad" "migfeed" "bigbuys" "dex"; }
+  .d-top { grid-template-columns: repeat(2, 1fr); }
+  .newfeed .feed { max-height: 420px; }
+  .risk-box { margin: 0 12px 12px; }
+}

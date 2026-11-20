@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FlowBot — Pump.fun Canlı Takip</title>
+  <meta name="description" content="pump.fun canlı akış: yeni tokenler, momentum skoru, mezuniyete yakın tokenler, DEX'e geçenler, büyük alımlar" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230b0f14'/><path d='M5 22 L12 15 L17 19 L27 8' stroke='%2322d3a6' stroke-width='3.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="pump-page">
+  <header class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#111821"/><path d="M5 22 L12 15 L17 19 L27 8" stroke="#22d3a6" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div>
+        <h1>FlowBot</h1>
+        <span class="sub">Pump.fun canlı takip</span>
+      </div>
+      <nav class="tabs">
+        <a href="./">Binance akışı</a>
+        <a href="pump.html" class="active">Pump.fun</a>
+      </nav>
+    </div>
+    <div class="status">
+      <span class="pill" id="conn"><i class="dot"></i><span>bağlanıyor…</span></span>
+      <span class="pill muted" id="solPill">SOL —</span>
+      <button class="btn ghost" id="pauseBtn" title="Akışı duraklat">⏸ Duraklat</button>
+    </div>
+  </header>
+
+  <section class="stats">
+    <div class="stat"><label>Yeni token / dk</label><b id="stRate">—</b><small id="stRateSub">son 5 dk ortalaması</small></div>
+    <div class="stat"><label>DEX'e geçen (son 1 saat)</label><b id="stMig">0</b><small>bonding curve tamamlandı</small></div>
+    <div class="stat"><label>İzlenen token</label><b id="stTracked">0</b><small>işlemleri canlı takip ediliyor</small></div>
+    <div class="stat"><label>Alım hacmi (son 5 dk)</label><b id="stVol">—</b><small id="stVolSub">izlenen tokenlerde</small></div>
+    <div class="stat"><label>En sıcak token</label><b id="stHot">—</b><small id="stHotSub">momentum skoru</small></div>
+  </section>
+
+  <main class="grid pump-grid">
+    <section class="card hot">
+      <div class="card-h">
+        <h2>🔥 Sıcak tokenler <span class="live">CANLI</span></h2>
+        <span class="hint">son 2 dk alım akışı · tekil alıcı · eğri hızı · balina</span>
+      </div>
+      <div class="table-wrap"><table id="hotTable"><thead><tr>
+        <th>Token</th><th class="r">Skor</th><th class="r">Piyasa değeri</th><th>Eğri</th>
+        <th class="r" title="Son 2 dk alış / satış sayısı">Al/Sat</th><th class="r" title="Son 2 dk net SOL akışı">Net SOL</th><th class="r">Alıcı</th><th class="r">Yaş</th><th>Uyarı</th>
+      </tr></thead><tbody></tbody></table></div>
+    </section>
+
+    <section class="card detail">
+      <div class="card-h"><h2 id="dTitle">Token detayı</h2><span class="hint" id="dHint">listeden bir token seç</span></div>
+      <div id="detail"><div class="empty">Sıcak tokenler veya yeni çıkanlar listesinden bir token seç.</div></div>
+    </section>
+
+    <section class="card newfeed">
+      <div class="card-h"><h2>🆕 Yeni çıkanlar <span class="live">CANLI</span></h2><span class="hint" id="newHint">pump.fun'da oluşturulan her token</span></div>
+      <div id="newFeed" class="feed"><div class="empty">Yeni token bekleniyor…</div></div>
+    </section>
+
+    <section class="card grad">
+      <div class="card-h"><h2>🎓 Mezuniyete yakın</h2><span class="hint">bonding curve ≥ %60</span></div>
+      <div id="gradList" class="grad-list"><div class="empty">Henüz yok</div></div>
+    </section>
+
+    <section class="card migfeed">
+      <div class="card-h"><h2>🚀 DEX'e geçenler <span class="live">CANLI</span></h2><span class="hint">eğrisi dolan tokenler (PumpSwap)</span></div>
+      <div id="migFeed" class="feed"><div class="empty">Mezuniyet bekleniyor…</div></div>
+    </section>
+
+    <section class="card bigbuys">
+      <div class="card-h"><h2>🐋 Büyük alımlar</h2><span class="hint">≥ 2 SOL tekil işlem</span></div>
+      <div id="bigFeed" class="feed mono"><div class="empty">Büyük işlem bekleniyor…</div></div>
+    </section>
+
+    <section class="card dex">
+      <div class="card-h">
+        <h2>📈 DEX'teki pump tokenleri</h2>
+        <span class="hint" id="dexHint">DexScreener · trend ve öne çıkan pump.fun tokenleri · dakikada bir yenilenir</span>
+      </div>
+      <div class="table-wrap"><table id="dexTable"><thead><tr>
+        <th data-dsort="name">Token</th><th data-dsort="score" class="r">Skor</th><th data-dsort="price" class="r">Fiyat</th>
+        <th data-dsort="m5" class="r">5dk</th><th data-dsort="h1" class="r">1s</th><th data-dsort="h24" class="r">24s</th>
+        <th data-dsort="vol" class="r">Hacim 1s</th><th data-dsort="liq" class="r">Likidite</th><th data-dsort="mcap" class="r">Piyasa değeri</th>
+        <th data-dsort="tx" class="r">Al/Sat 1s</th><th data-dsort="age" class="r">Yaş</th><th></th>
+      </tr></thead><tbody><tr><td colspan="12" class="empty">Yükleniyor…</td></tr></tbody></table></div>
+    </section>
+  </main>
+
+  <section class="risk-box">
+    <h3>⚠️ pump.fun riskleri: okumadan işlem yapma</h3>
+    <ul>
+      <li>pump.fun tokenlerinin <b>çok büyük çoğunluğu</b> birkaç saat içinde değerinin neredeyse tamamını kaybeder. Bu sayfadaki skor kâr tahmini değil, sadece <b>anlık alım ilgisinin</b> ölçüsüdür.</li>
+      <li><b>Geliştirici sattı</b>, <b>tek cüzdan</b> ve <b>zirveden düşüş</b> uyarıları rug pull (çekip kaçma) işaretidir. Botlar sahte hacim ve çok sayıda cüzdanla tekil alıcı sayısını şişirebilir.</li>
+      <li>Eğri ilerlemesi ve piyasa değeri zincir üstü işlem verisinden <b>yaklaşık</b> hesaplanır. İşlem yapmadan önce token sayfasını ve kontratı mutlaka kendin kontrol et.</li>
+      <li>Kaybetmeyi göze alamayacağın parayla işlem yapma. Yatırım tavsiyesi değildir.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>Veri: <a href="https://pumpportal.fun" target="_blank" rel="noopener">PumpPortal</a> (pump.fun canlı akışı, resmi olmayan 3. taraf API),
+      <a href="https://dexscreener.com" target="_blank" rel="noopener">DexScreener</a>, SOL fiyatı Binance.
+      Kaynak kod: <a href="https://github.com/dogankku/flowbot" target="_blank" rel="noopener">github.com/dogankku/flowbot</a>.</p>
+  </footer>
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <script src="assets/pumpcore.js"></script>
+  <script src="assets/pump.js"></script>
+</body>
+</html>
